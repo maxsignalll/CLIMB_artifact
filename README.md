@@ -41,15 +41,24 @@ figures and tables.
 
 Policy mapping:
 
+Main paper policies:
+
 - `policies/gate_rr.py`: **CLIMB**
 - `policies/vanilla.py`: **GlobalFIFO**
 - `policies/cap_only.py`: **BGCap**
 - `policies/cache_aware.py`: **LRUGate**
 - `policies/no_switch.py`: **LockGate**
+
+Appendix design-space variants:
+
 - `policies/gate_rr_pp.py`: **ClassDRR**
 - `policies/gate_u.py`: **UrgencyGate**
 - `policies/gate_mix.py`: **SkewMixGate**
-- `policies/legacy.py`: historical variants used for auditability
+- `policies/legacy.py`: historical gate/DRR/stability variants used for
+  appendix auditability
+
+Support files:
+
 - `policies/base.py`: shared base class
 - `policies/__init__.py`: policy registry
 
