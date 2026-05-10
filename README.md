@@ -203,6 +203,9 @@ To also run the safe-residency anchor at `K=8`, use:
 KS="4 8" bash scripts/run_gpu_w2_min_local.sh
 ```
 
+For each `K`, the wrapper passes `--vllm-max-loras K` to the harness so the
+vLLM adapter-residency capacity matches the paper's budget axis.
+
 The wrapper writes a short report to `reports/gpu_run_summary.md`, mirrors run
 directories to `runs/`, and mirrors report CSVs to `report/`.
 

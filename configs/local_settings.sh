@@ -13,6 +13,7 @@ LOG_DIR="${PWD}/logs_gpu"
 LOAD_MODE="open"
 VLLM_MAX_MODEL_LEN=4096
 VLLM_GPU_UTIL=0.85
+# scripts/run_gpu_w2_min_local.sh overrides active max_loras to the loop K.
 VLLM_MAX_LORAS=4
 VLLM_MAX_CPU_LORAS=8
 VLLM_MAX_LORA_RANK=128

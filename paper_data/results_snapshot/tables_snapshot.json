@@ -1,4 +1,107 @@
 {
+  "tab_cliff_safe.tex": {
+    "source": "run_summaries",
+    "pre_lines": [
+      "\\begin{table}[t]",
+      "  \\centering",
+      "  \\scriptsize",
+      "  \\setlength{\\tabcolsep}{2pt}",
+      "  \\caption{\\textbf{Cliff vs.\\ Safe regimes at fixed $W{=}8$.}",
+      "  \\textsf{VIP} TTFT p99 decomposition and throughput (open-loop).",
+      "  Values are mean$\\pm$std (3 seeds). Units are seconds (s) except throughput (rps).",
+      "  Queue/Engine columns report component-wise p99 and need not sum to Total p99.}",
+      "  \\label{tab:cliff_safe}"
+    ],
+    "tabular_begin": "  \\begin{tabular}{l c r r r c}",
+    "tabular_lines": [
+      "    \\toprule",
+      "    \\textbf{Policy} & \\textbf{$K$} &",
+      "    \\multicolumn{3}{c}{\\textbf{\\textsf{VIP} TTFT p99}} &",
+      "    \\textbf{Thr} \\\\",
+      "    \\cmidrule(lr){3-5}",
+      "     &  & Total (s) & Queue (s) & Engine (s) & (rps) \\\\",
+      "    \\midrule",
+      "",
+      "    \\textsc{GlobalFIFO} & 4 & 38.71$\\pm$13.2 & 2.10$\\pm$0.1 & 38.43$\\pm$12.9 & 10.66$\\pm$0.18 \\\\",
+      "    \\textsc{CLIMB}      & 4 & \\textbf{13.06}$\\pm$3.2 & 12.97$\\pm$3.2 & \\textbf{0.13}$\\pm$0.0 & 10.66$\\pm$0.18 \\\\",
+      "    \\textsc{GlobalFIFO} & 8 & 0.13$\\pm$0.0 & 0.00$\\pm$0.0 & 0.13$\\pm$0.0 & 10.66$\\pm$0.18 \\\\",
+      "    \\textsc{CLIMB}      & 8 & 0.13$\\pm$0.0 & 0.01$\\pm$0.0 & 0.13$\\pm$0.0 & 10.66$\\pm$0.18 \\\\",
+      "    \\bottomrule"
+    ],
+    "tabular_end": "  \\end{tabular}",
+    "post_lines": [
+      "\\end{table}"
+    ]
+  },
+  "tab_baseline_zoo.tex": {
+    "source": "run_summaries",
+    "pre_lines": [
+      "\\begin{table}[h] % 在附录中推荐用 [h] 或者 [t]",
+      "  \\centering",
+      "  \\small",
+      "  \\setlength{\\tabcolsep}{5pt} % 列宽现在很富裕，可以稍微宽一点",
+      "  \\caption{\\textbf{Detailed Baseline Performance ($W{=}8$).} ",
+      "  Detailed comparison of all baselines under Cliff ($K{=}4$) and Safe ($K{=}8$) regimes. ",
+      "  \\textsc{BGCap} suffers from high \\textsf{BG} latency; \\textsc{LockGate} suffers from low throughput. ",
+      "  \\textsc{CLIMB} provides a strong throughput-preserving trade-off. Values are mean$\\pm$std (3 seeds).}",
+      "  \\label{tab:baseline_zoo}"
+    ],
+    "tabular_begin": "  \\begin{tabular}{l rrr r r}",
+    "tabular_lines": [
+      "    \\toprule",
+      "    & \\multicolumn{3}{c}{\\textbf{\\textsf{VIP} Latency p99 (s)}} & \\textbf{\\textsf{BG} p99} & \\textbf{Thr} \\\\",
+      "    \\cmidrule(lr){2-4} \\cmidrule(lr){5-5} \\cmidrule(lr){6-6}",
+      "    \\textbf{Policy} & Total (TTFT) & Queue & Engine & (s) & (rps) \\\\",
+      "    \\midrule",
+      "    \\multicolumn{6}{l}{\\textit{\\textbf{Regime: Cliff} ($K{=}4$)}} \\\\",
+      "    \\textsc{GlobalFIFO}      & 38.71$\\pm$13.2 &  2.10$\\pm$0.1 & 38.43$\\pm$12.9 &  20.17$\\pm$1.9 & 10.66$\\pm$0.2 \\\\",
+      "    \\textsc{LRUGate} & 40.96$\\pm$10.4 & 40.85$\\pm$10.4&  0.27$\\pm$0.2  &  31.21$\\pm$7.0 & 10.66$\\pm$0.2 \\\\",
+      "    \\textsc{BGCap}    &  3.77$\\pm$0.6  &  3.51$\\pm$0.8 &  0.19$\\pm$0.1  & 118.40$\\pm$0.2 &  6.89$\\pm$0.8 \\\\",
+      "    \\textsc{LockGate}   &  0.05$\\pm$0.0  &  0.00$\\pm$0.0 &  0.05$\\pm$0.0  &   0.06$\\pm$0.0 &  3.99$\\pm$0.2 \\\\",
+      "    \\textsc{CLIMB}     & 13.69$\\pm$3.4  & 13.60$\\pm$3.4 &  0.13$\\pm$0.0  &  40.36$\\pm$5.0 & 10.66$\\pm$0.2 \\\\",
+      "    \\midrule",
+      "    \\multicolumn{6}{l}{\\textit{\\textbf{Regime: Safe Anchor} ($K{=}8$)}} \\\\",
+      "    \\textsc{GlobalFIFO}      &  0.13$\\pm$0.0  &  0.00$\\pm$0.0 &  0.13$\\pm$0.0  &   0.15$\\pm$0.0 & 10.66$\\pm$0.2 \\\\",
+      "    \\textsc{LRUGate} &  0.13$\\pm$0.0  &  0.00$\\pm$0.0 &  0.13$\\pm$0.0  &   0.15$\\pm$0.0 & 10.66$\\pm$0.2 \\\\",
+      "    \\textsc{BGCap}    &  3.85$\\pm$0.5  &  3.64$\\pm$0.4 &  0.21$\\pm$0.1  & 118.30$\\pm$0.4 &  6.78$\\pm$0.6 \\\\",
+      "    \\textsc{LockGate}   &  0.05$\\pm$0.0  &  0.00$\\pm$0.0 &  0.05$\\pm$0.0  &   0.06$\\pm$0.0 &  3.99$\\pm$0.2 \\\\",
+      "    \\textsc{CLIMB}     &  0.13$\\pm$0.0  &  0.00$\\pm$0.0 &  0.13$\\pm$0.0  &   0.14$\\pm$0.0 & 10.66$\\pm$0.2 \\\\",
+      "    \\bottomrule"
+    ],
+    "tabular_end": "  \\end{tabular}",
+    "post_lines": [
+      "\\end{table}"
+    ]
+  },
+  "tab_controls.tex": {
+    "source": "run_summaries",
+    "pre_lines": [
+      "\\begin{table}[t]",
+      "  \\centering",
+      "  \\caption{\\textbf{Controls (D/H).}",
+      "  \\textsf{VIP} TTFT p99 and its queue/engine components plus throughput.",
+      "  Values are mean$\\pm$std over seeds 101/102/103. Units are seconds (s) except throughput (rps).}",
+      "  \\label{tab:controls}",
+      "  \\small",
+      "  \\setlength{\\tabcolsep}{5pt}"
+    ],
+    "tabular_begin": "  \\begin{tabular}{llrrrr}",
+    "tabular_lines": [
+      "    \\toprule",
+      "    Control & Setting & \\textsf{VIP} TTFT p99 & \\textsf{VIP} q p99 & \\textsf{VIP} eng p99 & Thr \\\\",
+      "    \\midrule",
+      "    D (load-matched) & $M8, K{=}4$ (ref.) & 38.71$\\pm$13.18 & 2.10$\\pm$0.08 & 38.43$\\pm$12.91 & 10.66$\\pm$0.18 \\\\",
+      "    D (load-matched) & $M4, K{=}2$ (matched) & 53.04$\\pm$18.80 & 3.59$\\pm$0.18 & 53.04$\\pm$18.80 & 13.13$\\pm$0.26 \\\\",
+      "    \\midrule",
+      "    H (same arrivals) & $K{=}8$ & 0.13$\\pm$0.00 & 0.00$\\pm$0.00 & 0.13$\\pm$0.00 & 10.66$\\pm$0.22 \\\\",
+      "    H (same arrivals) & $K{=}7$ & 45.22$\\pm$13.82 & 0.01$\\pm$0.00 & 45.22$\\pm$13.82 & 10.66$\\pm$0.22 \\\\",
+      "    \\bottomrule"
+    ],
+    "tabular_end": "  \\end{tabular}",
+    "post_lines": [
+      "\\end{table}"
+    ]
+  },
   "tab_pro6000_k4_m8.tex": {
     "source": "run_summaries",
     "pre_lines": [
@@ -48,35 +151,6 @@
       "\\end{table}"
     ]
   },
-  "tab_controls.tex": {
-    "source": "curated_tex",
-    "pre_lines": [
-      "\\begin{table}[t]",
-      "  \\centering",
-      "  \\caption{\\textbf{Controls (D/H).}",
-      "  \\textsf{VIP} TTFT p99 and its queue/engine components plus throughput.",
-      "  Values are mean$\\pm$std over seeds 101/102/103. Units are seconds (s) except throughput (rps).}",
-      "  \\label{tab:controls}",
-      "  \\small",
-      "  \\setlength{\\tabcolsep}{5pt}"
-    ],
-    "tabular_begin": "  \\begin{tabular}{llrrrr}",
-    "tabular_lines": [
-      "    \\toprule",
-      "    Control & Setting & \\textsf{VIP} TTFT p99 & \\textsf{VIP} q p99 & \\textsf{VIP} eng p99 & Thr \\\\",
-      "    \\midrule",
-      "    D (load-matched) & $M8, K{=}4$ (ref.) & 38.71$\\pm$13.18 & 2.10$\\pm$0.08 & 38.43$\\pm$12.91 & 10.66$\\pm$0.18 \\\\",
-      "    D (load-matched) & $M4, K{=}2$ (matched) & 53.04$\\pm$18.80 & 3.59$\\pm$0.18 & 53.04$\\pm$18.80 & 13.13$\\pm$0.26 \\\\",
-      "    \\midrule",
-      "    H (same arrivals) & $K{=}8$ & 0.13$\\pm$0.00 & 0.00$\\pm$0.00 & 0.13$\\pm$0.00 & 10.66$\\pm$0.22 \\\\",
-      "    H (same arrivals) & $K{=}7$ & 45.22$\\pm$13.82 & 0.01$\\pm$0.00 & 45.22$\\pm$13.82 & 10.66$\\pm$0.22 \\\\",
-      "    \\bottomrule"
-    ],
-    "tabular_end": "  \\end{tabular}",
-    "post_lines": [
-      "\\end{table}"
-    ]
-  },
   "tab_gaterrpp_wtl.tex": {
     "source": "curated_tex",
     "pre_lines": [
@@ -104,40 +178,6 @@
       "\\vspace{2pt}",
       "",
       "\\label{tab:classdrr_wtl}",
-      "\\end{table}"
-    ]
-  },
-  "tab_cliff_safe.tex": {
-    "source": "curated_tex",
-    "pre_lines": [
-      "\\begin{table}[t]",
-      "  \\centering",
-      "  \\scriptsize",
-      "  \\setlength{\\tabcolsep}{2pt}",
-      "  \\caption{\\textbf{Cliff vs.\\ Safe regimes at fixed $W{=}8$.}",
-      "  \\textsf{VIP} TTFT p99 decomposition and throughput (open-loop).",
-      "  Values are mean$\\pm$std (3 seeds). Units are seconds (s) except throughput (rps).",
-      "  Queue/Engine columns report component-wise p99 and need not sum to Total p99.}",
-      "  \\label{tab:cliff_safe}"
-    ],
-    "tabular_begin": "  \\begin{tabular}{l c r r r c}",
-    "tabular_lines": [
-      "    \\toprule",
-      "    \\textbf{Policy} & \\textbf{$K$} &",
-      "    \\multicolumn{3}{c}{\\textbf{\\textsf{VIP} TTFT p99}} &",
-      "    \\textbf{Thr} \\\\",
-      "    \\cmidrule(lr){3-5}",
-      "     &  & Total (s) & Queue (s) & Engine (s) & (rps) \\\\",
-      "    \\midrule",
-      "",
-      "    \\textsc{GlobalFIFO} & 4 & 38.71$\\pm$13.2 & 2.10$\\pm$0.1 & 38.43$\\pm$12.9 & 10.66$\\pm$0.18 \\\\",
-      "    \\textsc{CLIMB}      & 4 & \\textbf{13.06}$\\pm$3.2 & 12.97$\\pm$3.2 & \\textbf{0.13}$\\pm$0.0 & 10.66$\\pm$0.18 \\\\",
-      "    \\textsc{GlobalFIFO} & 8 & 0.13$\\pm$0.0 & 0.00$\\pm$0.0 & 0.13$\\pm$0.0 & 10.66$\\pm$0.18 \\\\",
-      "    \\textsc{CLIMB}      & 8 & 0.13$\\pm$0.0 & 0.01$\\pm$0.0 & 0.13$\\pm$0.0 & 10.66$\\pm$0.18 \\\\",
-      "    \\bottomrule"
-    ],
-    "tabular_end": "  \\end{tabular}",
-    "post_lines": [
       "\\end{table}"
     ]
   },
@@ -200,46 +240,6 @@
     "post_lines": [
       "",
       "\\label{tab:policy_variants}",
-      "\\end{table}"
-    ]
-  },
-  "tab_baseline_zoo.tex": {
-    "source": "curated_tex",
-    "pre_lines": [
-      "\\begin{table}[h] % 在附录中推荐用 [h] 或者 [t]",
-      "  \\centering",
-      "  \\small",
-      "  \\setlength{\\tabcolsep}{5pt} % 列宽现在很富裕，可以稍微宽一点",
-      "  \\caption{\\textbf{Detailed Baseline Performance ($W{=}8$).} ",
-      "  Detailed comparison of all baselines under Cliff ($K{=}4$) and Safe ($K{=}8$) regimes. ",
-      "  \\textsc{BGCap} suffers from high \\textsf{BG} latency; \\textsc{LockGate} suffers from low throughput. ",
-      "  \\textsc{CLIMB} provides a strong throughput-preserving trade-off. Values are mean$\\pm$std (3 seeds).}",
-      "  \\label{tab:baseline_zoo}"
-    ],
-    "tabular_begin": "  \\begin{tabular}{l rrr r r}",
-    "tabular_lines": [
-      "    \\toprule",
-      "    & \\multicolumn{3}{c}{\\textbf{\\textsf{VIP} Latency p99 (s)}} & \\textbf{\\textsf{BG} p99} & \\textbf{Thr} \\\\",
-      "    \\cmidrule(lr){2-4} \\cmidrule(lr){5-5} \\cmidrule(lr){6-6}",
-      "    \\textbf{Policy} & Total (TTFT) & Queue & Engine & (s) & (rps) \\\\",
-      "    \\midrule",
-      "    \\multicolumn{6}{l}{\\textit{\\textbf{Regime: Cliff} ($K{=}4$)}} \\\\",
-      "    \\textsc{GlobalFIFO}      & 38.71$\\pm$13.2 &  2.10$\\pm$0.1 & 38.43$\\pm$12.9 &  20.17$\\pm$1.9 & 10.66$\\pm$0.2 \\\\",
-      "    \\textsc{LRUGate} & 40.96$\\pm$10.4 & 40.85$\\pm$10.4&  0.27$\\pm$0.2  &  31.21$\\pm$7.0 & 10.66$\\pm$0.2 \\\\",
-      "    \\textsc{BGCap}    &  3.77$\\pm$0.6  &  3.51$\\pm$0.8 &  0.19$\\pm$0.1  & 118.40$\\pm$0.2 &  6.89$\\pm$0.8 \\\\",
-      "    \\textsc{LockGate}   &  0.05$\\pm$0.0  &  0.00$\\pm$0.0 &  0.05$\\pm$0.0  &   0.06$\\pm$0.0 &  3.99$\\pm$0.2 \\\\",
-      "    \\textsc{CLIMB}     & 13.69$\\pm$3.4  & 13.60$\\pm$3.4 &  0.13$\\pm$0.0  &  40.36$\\pm$5.0 & 10.66$\\pm$0.2 \\\\",
-      "    \\midrule",
-      "    \\multicolumn{6}{l}{\\textit{\\textbf{Regime: Safe Anchor} ($K{=}8$)}} \\\\",
-      "    \\textsc{GlobalFIFO}      &  0.13$\\pm$0.0  &  0.00$\\pm$0.0 &  0.13$\\pm$0.0  &   0.15$\\pm$0.0 & 10.66$\\pm$0.2 \\\\",
-      "    \\textsc{LRUGate} &  0.13$\\pm$0.0  &  0.00$\\pm$0.0 &  0.13$\\pm$0.0  &   0.15$\\pm$0.0 & 10.66$\\pm$0.2 \\\\",
-      "    \\textsc{BGCap}    &  3.85$\\pm$0.5  &  3.64$\\pm$0.4 &  0.21$\\pm$0.1  & 118.30$\\pm$0.4 &  6.78$\\pm$0.6 \\\\",
-      "    \\textsc{LockGate}   &  0.05$\\pm$0.0  &  0.00$\\pm$0.0 &  0.05$\\pm$0.0  &   0.06$\\pm$0.0 &  3.99$\\pm$0.2 \\\\",
-      "    \\textsc{CLIMB}     &  0.13$\\pm$0.0  &  0.00$\\pm$0.0 &  0.13$\\pm$0.0  &   0.14$\\pm$0.0 & 10.66$\\pm$0.2 \\\\",
-      "    \\bottomrule"
-    ],
-    "tabular_end": "  \\end{tabular}",
-    "post_lines": [
       "\\end{table}"
     ]
   },

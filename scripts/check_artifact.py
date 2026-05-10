@@ -64,6 +64,8 @@ RUN_SUMMARY_COLUMNS = {
     "vip_engine_p99_ms",
     "throughput_rps",
 }
+REQUIRED_TABLE_IDS = {"cliff_safe", "baseline_zoo", "controls", "pro6000", "bg_liveness"}
+LEGACY_PHASE_SUMMARY_FIELDS = {"offered_bg_rps_each", "offered_vip_rps"}
 
 FORBIDDEN_NAMES = {".DS_Store"}
 FORBIDDEN_SUFFIXES = {".pyc", ".pyo", ".bak"}
@@ -130,7 +132,32 @@ def check_run_summary(root: Path, errors: list[str]) -> None:
     if not {"vanilla", "gate_rr"}.issubset(policies):
         fail(errors, "run_summaries.csv must include vanilla and gate_rr rows")
         return
-    ok(f"run_summaries.csv has {len(rows)} rows and expected policies")
+    table_ids = {row["table_id"] for row in rows if row.get("table_id")}
+    missing_tables = sorted(REQUIRED_TABLE_IDS - table_ids)
+    if missing_tables:
+        fail(errors, "run_summaries.csv missing table_id values: " + ", ".join(missing_tables))
+        return
+    ok(f"run_summaries.csv has {len(rows)} rows, expected policies, and required table_ids")
+
+
+def check_summary_metadata(root: Path, errors: list[str]) -> None:
+    summary_root = root / "paper_data/summary"
+    if not summary_root.exists():
+        return
+    bad = []
+    for path in summary_root.rglob("summary.json"):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            bad.append(f"{path.relative_to(root)}: {exc}")
+            continue
+        stale = sorted(LEGACY_PHASE_SUMMARY_FIELDS & set(data))
+        if stale:
+            bad.append(f"{path.relative_to(root)}: stale scalar fields {', '.join(stale)}")
+    if bad:
+        fail(errors, "legacy summary metadata present: " + "; ".join(bad[:6]))
+    else:
+        ok("summary metadata has no stale scalar phase-load fields")
 
 
 def check_policy_registry(root: Path, errors: list[str]) -> None:
@@ -213,6 +240,7 @@ def main() -> int:
     check_required_paths(root, errors)
     check_json_inputs(root, errors)
     check_run_summary(root, errors)
+    check_summary_metadata(root, errors)
     check_policy_registry(root, errors)
     check_workload_and_readme(root, errors)
     check_clean_tree(root, errors)

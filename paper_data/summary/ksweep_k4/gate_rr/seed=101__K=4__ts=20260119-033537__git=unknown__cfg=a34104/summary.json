@@ -112,8 +112,6 @@
   "max_w_total": 8,
   "min_share": 0.10925024342745862,
   "min_share_bg": 0.10925024342745862,
-  "offered_bg_rps_each": 0.5,
-  "offered_vip_rps": 1.0,
   "ok_count_bg": 5135,
   "ok_count_vip": 531,
   "policy": "gate_rr",

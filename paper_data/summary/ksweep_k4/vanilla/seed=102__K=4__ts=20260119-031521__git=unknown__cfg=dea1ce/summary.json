@@ -112,8 +112,6 @@
   "max_w_total": 8,
   "min_share": 0.11189612373496277,
   "min_share_bg": 0.11189612373496277,
-  "offered_bg_rps_each": 0.5,
-  "offered_vip_rps": 1.0,
   "ok_count_bg": 5237,
   "ok_count_vip": 486,
   "policy": "vanilla",

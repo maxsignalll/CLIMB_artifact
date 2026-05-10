@@ -128,8 +128,9 @@ def _build_tab_cliff_safe(rows: List[Dict[str, str]]) -> Dict[str, List[str]]:
     tab_lines.append(r"     &  & Total (s) & Queue (s) & Engine (s) & (rps) \\")
     tab_lines.append(r"    \midrule")
 
-    for policy in ("vanilla", "gate_rr"):
-        for k in (4, 8):
+    tab_lines.append("")
+    for k in (4, 8):
+        for policy in ("vanilla", "gate_rr"):
             sel = [r for r in rows if r.get("policy") == policy and str(r.get("k")) == str(k)]
             if not sel:
                 continue
@@ -138,17 +139,26 @@ def _build_tab_cliff_safe(rows: List[Dict[str, str]]) -> Dict[str, List[str]]:
             vip_engine = [float(r["vip_engine_p99_ms"]) / 1000.0 for r in sel if r.get("vip_engine_p99_ms")]
             thr = [float(r["throughput_rps"]) for r in sel if r.get("throughput_rps")]
 
-            ttft_mean, ttft_std = _mean_std_sample(vip_ttft)
-            q_mean, q_std = _mean_std_sample(vip_queue)
-            e_mean, e_std = _mean_std_sample(vip_engine)
-            t_mean, t_std = _mean_std_sample(thr)
+            ttft_mean, ttft_std = _mean_std_pop(vip_ttft)
+            q_mean, q_std = _mean_std_pop(vip_queue)
+            e_mean, e_std = _mean_std_pop(vip_engine)
+            t_mean, t_std = _mean_std_pop(thr)
+
+            ttft_str = _format_pm(ttft_mean, ttft_std, 2, 1)
+            engine_str = _format_pm(e_mean, e_std, 2, 1)
+            if policy == "gate_rr" and k == 4:
+                ttft_str = rf"\textbf{{{ttft_mean:.2f}}}$\pm${ttft_std:.1f}"
+                engine_str = rf"\textbf{{{e_mean:.2f}}}$\pm${e_std:.1f}"
+            policy_str = rf"\textsc{{{POLICY_TO_PAPER[policy]}}}"
+            if policy == "gate_rr":
+                policy_str = policy_str + "     "
 
             tab_lines.append(
-                rf"    \textsc{{{POLICY_TO_PAPER[policy]}}} & {k} & "
-                rf"{_format_pm(ttft_mean, ttft_std, 2, 1)} & "
+                rf"    {policy_str} & {k} & "
+                rf"{ttft_str} & "
                 rf"{_format_pm(q_mean, q_std, 2, 1)} & "
-                rf"{_format_pm(e_mean, e_std, 2, 1)} & "
-                rf"{_format_pm(t_mean, t_std, 2, 1)} \\")
+                rf"{engine_str} & "
+                rf"{_format_pm(t_mean, t_std, 2, 2)} \\")
 
     tab_lines.append(r"    \bottomrule")
     tab_lines.append(r"  \end{tabular}")
@@ -203,10 +213,10 @@ def _table_rows(rows: Iterable[Dict[str, str]], policy: str, k: str) -> List[Dic
 def _build_tab_baseline_zoo(rows: List[Dict[str, str]]) -> Dict[str, List[str]]:
     baseline_rows = [r for r in rows if r.get("table_id") == "baseline_zoo"]
     tab: List[str] = []
-    tab.append(r"\begin{table}[h]")
+    tab.append(r"\begin{table}[h] % 在附录中推荐用 [h] 或者 [t]")
     tab.append(r"  \centering")
     tab.append(r"  \small")
-    tab.append(r"  \setlength{\tabcolsep}{5pt}")
+    tab.append(r"  \setlength{\tabcolsep}{5pt} % 列宽现在很富裕，可以稍微宽一点")
     tab.append(
         r"  \caption{\textbf{Detailed Baseline Performance ($W{=}8$).} "
     )
@@ -229,6 +239,18 @@ def _build_tab_baseline_zoo(rows: List[Dict[str, str]]) -> Dict[str, List[str]]:
     tab.append(r"    \multicolumn{6}{l}{\textit{\textbf{Regime: Cliff} ($K{=}4$)}} \\")
 
     order = ["vanilla", "cache_aware", "cap_only", "no_switch", "gate_rr"]
+    row_templates = {
+        ("4", "vanilla"): r"    \textsc{{GlobalFIFO}}      & {ttft} &  {q} & {e} &  {bg} & {thr} \\",
+        ("4", "cache_aware"): r"    \textsc{{LRUGate}} & {ttft} & {q}&  {e}  &  {bg} & {thr} \\",
+        ("4", "cap_only"): r"    \textsc{{BGCap}}    &  {ttft}  &  {q} &  {e}  & {bg} &  {thr} \\",
+        ("4", "no_switch"): r"    \textsc{{LockGate}}   &  {ttft}  &  {q} &  {e}  &   {bg} &  {thr} \\",
+        ("4", "gate_rr"): r"    \textsc{{CLIMB}}     & {ttft}  & {q} &  {e}  &  {bg} & {thr} \\",
+        ("8", "vanilla"): r"    \textsc{{GlobalFIFO}}      &  {ttft}  &  {q} &  {e}  &   {bg} & {thr} \\",
+        ("8", "cache_aware"): r"    \textsc{{LRUGate}} &  {ttft}  &  {q} &  {e}  &   {bg} & {thr} \\",
+        ("8", "cap_only"): r"    \textsc{{BGCap}}    &  {ttft}  &  {q} &  {e}  & {bg} &  {thr} \\",
+        ("8", "no_switch"): r"    \textsc{{LockGate}}   &  {ttft}  &  {q} &  {e}  &   {bg} &  {thr} \\",
+        ("8", "gate_rr"): r"    \textsc{{CLIMB}}     &  {ttft}  &  {q} &  {e}  &   {bg} & {thr} \\",
+    }
     for policy in order:
         sel = _table_rows(baseline_rows, policy, "4")
         std_fn = _mean_std_sample
@@ -244,13 +266,13 @@ def _build_tab_baseline_zoo(rows: List[Dict[str, str]]) -> Dict[str, List[str]]:
         e_mean, e_std = std_fn(vip_e)
         bg_mean, bg_std = std_fn(bg)
         t_mean, t_std = std_fn(thr)
-        tab.append(
-            rf"    \textsc{{{POLICY_TO_PAPER[policy]}}}      & "
-            rf"{_format_pm(ttft_mean, ttft_std, 2, 1)} & "
-            rf"{_format_pm(q_mean, q_std, 2, 1)} & "
-            rf"{_format_pm(e_mean, e_std, 2, 1)} & "
-            rf"{_format_pm(bg_mean, bg_std, 2, 1)} & "
-            rf"{_format_pm(t_mean, t_std, 2, 1)} \\")
+        tab.append(row_templates[("4", policy)].format(
+            ttft=_format_pm(ttft_mean, ttft_std, 2, 1),
+            q=_format_pm(q_mean, q_std, 2, 1),
+            e=_format_pm(e_mean, e_std, 2, 1),
+            bg=_format_pm(bg_mean, bg_std, 2, 1),
+            thr=_format_pm(t_mean, t_std, 2, 1),
+        ))
 
     tab.append(r"    \midrule")
     tab.append(r"    \multicolumn{6}{l}{\textit{\textbf{Regime: Safe Anchor} ($K{=}8$)}} \\")
@@ -269,13 +291,13 @@ def _build_tab_baseline_zoo(rows: List[Dict[str, str]]) -> Dict[str, List[str]]:
         e_mean, e_std = std_fn(vip_e)
         bg_mean, bg_std = std_fn(bg)
         t_mean, t_std = std_fn(thr)
-        tab.append(
-            rf"    \textsc{{{POLICY_TO_PAPER[policy]}}}      & "
-            rf"{_format_pm(ttft_mean, ttft_std, 2, 1)} & "
-            rf"{_format_pm(q_mean, q_std, 2, 1)} & "
-            rf"{_format_pm(e_mean, e_std, 2, 1)} & "
-            rf"{_format_pm(bg_mean, bg_std, 2, 1)} & "
-            rf"{_format_pm(t_mean, t_std, 2, 1)} \\")
+        tab.append(row_templates[("8", policy)].format(
+            ttft=_format_pm(ttft_mean, ttft_std, 2, 1),
+            q=_format_pm(q_mean, q_std, 2, 1),
+            e=_format_pm(e_mean, e_std, 2, 1),
+            bg=_format_pm(bg_mean, bg_std, 2, 1),
+            thr=_format_pm(t_mean, t_std, 2, 1),
+        ))
 
     tab.append(r"    \bottomrule")
     tab.append(r"  \end{tabular}")

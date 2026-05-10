@@ -30,7 +30,7 @@ class GateRRPolicy(PolicyBase):
             if sched.adapter_class.get(a) == "VIP"
         }
         w_vip = len(vip_backlog)
-        if w_vip <= self.k:
+        if w_vip < self.k:
             for adapter_id in vip_backlog:
                 if len(sched.resident_set()) >= self.k:
                     break
