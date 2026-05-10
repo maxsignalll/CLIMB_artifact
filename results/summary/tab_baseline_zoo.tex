@@ -1,0 +1,31 @@
+\begin{table}[h] % 在附录中推荐用 [h] 或者 [t]
+  \centering
+  \small
+  \setlength{\tabcolsep}{5pt} % 列宽现在很富裕，可以稍微宽一点
+  \caption{\textbf{Detailed Baseline Performance ($W{=}8$).} 
+  Detailed comparison of all baselines under Cliff ($K{=}4$) and Safe ($K{=}8$) regimes. 
+  \textsc{BGCap} suffers from high \textsf{BG} latency; \textsc{LockGate} suffers from low throughput. 
+  \textsc{CLIMB} provides a strong throughput-preserving trade-off. Values are mean$\pm$std (3 seeds).}
+  \label{tab:baseline_zoo}
+  \begin{tabular}{l rrr r r}
+    \toprule
+    & \multicolumn{3}{c}{\textbf{\textsf{VIP} Latency p99 (s)}} & \textbf{\textsf{BG} p99} & \textbf{Thr} \\
+    \cmidrule(lr){2-4} \cmidrule(lr){5-5} \cmidrule(lr){6-6}
+    \textbf{Policy} & Total (TTFT) & Queue & Engine & (s) & (rps) \\
+    \midrule
+    \multicolumn{6}{l}{\textit{\textbf{Regime: Cliff} ($K{=}4$)}} \\
+    \textsc{GlobalFIFO}      & 38.71$\pm$13.2 &  2.10$\pm$0.1 & 38.43$\pm$12.9 &  20.17$\pm$1.9 & 10.66$\pm$0.2 \\
+    \textsc{LRUGate} & 40.96$\pm$10.4 & 40.85$\pm$10.4&  0.27$\pm$0.2  &  31.21$\pm$7.0 & 10.66$\pm$0.2 \\
+    \textsc{BGCap}    &  3.77$\pm$0.6  &  3.51$\pm$0.8 &  0.19$\pm$0.1  & 118.40$\pm$0.2 &  6.89$\pm$0.8 \\
+    \textsc{LockGate}   &  0.05$\pm$0.0  &  0.00$\pm$0.0 &  0.05$\pm$0.0  &   0.06$\pm$0.0 &  3.99$\pm$0.2 \\
+    \textsc{CLIMB}     & 13.69$\pm$3.4  & 13.60$\pm$3.4 &  0.13$\pm$0.0  &  40.36$\pm$5.0 & 10.66$\pm$0.2 \\
+    \midrule
+    \multicolumn{6}{l}{\textit{\textbf{Regime: Safe Anchor} ($K{=}8$)}} \\
+    \textsc{GlobalFIFO}      &  0.13$\pm$0.0  &  0.00$\pm$0.0 &  0.13$\pm$0.0  &   0.15$\pm$0.0 & 10.66$\pm$0.2 \\
+    \textsc{LRUGate} &  0.13$\pm$0.0  &  0.00$\pm$0.0 &  0.13$\pm$0.0  &   0.15$\pm$0.0 & 10.66$\pm$0.2 \\
+    \textsc{BGCap}    &  3.85$\pm$0.5  &  3.64$\pm$0.4 &  0.21$\pm$0.1  & 118.30$\pm$0.4 &  6.78$\pm$0.6 \\
+    \textsc{LockGate}   &  0.05$\pm$0.0  &  0.00$\pm$0.0 &  0.05$\pm$0.0  &   0.06$\pm$0.0 &  3.99$\pm$0.2 \\
+    \textsc{CLIMB}     &  0.13$\pm$0.0  &  0.00$\pm$0.0 &  0.13$\pm$0.0  &   0.14$\pm$0.0 & 10.66$\pm$0.2 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

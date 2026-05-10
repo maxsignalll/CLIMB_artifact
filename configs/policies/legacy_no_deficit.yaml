@@ -1,0 +1,4 @@
+id: legacy_no_deficit
+policy: legacy
+params:
+  disable_deficit: true

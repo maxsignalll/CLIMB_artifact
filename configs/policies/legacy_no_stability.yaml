@@ -1,0 +1,4 @@
+id: legacy_no_stability
+policy: legacy
+params:
+  disable_stability: true

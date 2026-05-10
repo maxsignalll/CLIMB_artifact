@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this artifact, please cite the CLIMB paper."
+title: "CLIMB: Taming the LoRA Residency Cliff in Multi-LoRA Serving"
+authors:
+  - family-names: Zhang
+    given-names: Haoran
+  - family-names: Liang
+    given-names: Zhiyu
+  - family-names: Zuo
+    given-names: Decheng
+  - family-names: Wang
+    given-names: Hongzhi
+year: 2026
+repository-code: "https://github.com/maxsignalll/CLIMB_artifact"
+conference:
+  name: "International Conference on Machine Learning"
+  location: "Seoul, South Korea"

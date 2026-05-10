@@ -1,0 +1,4 @@
+id: cache_aware
+policy: cache_aware
+params:
+  cluster_q: 4

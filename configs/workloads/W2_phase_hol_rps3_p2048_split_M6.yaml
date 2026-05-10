@@ -1,0 +1,30 @@
+id: W2_phase_hol_rps3_p2048_split_M6
+name: W2_phase_hol_rps3_p2048_split_M6
+duration_s: 600
+warmup_s: 60
+token:
+  max_tokens: 64
+  prompt_len: 64
+vip:
+  adapters: [vip]
+  rps: 1.0
+  concurrency: 1
+  prompt_len: 64
+bg:
+  prompt_len: 2048
+  phases:
+    - t0: 0
+      t1: 200
+      adapters: [bg01]
+      rps_each: 3.0
+      concurrency_each: 1
+    - t0: 200
+      t1: 400
+      adapters: [bg01, bg02, bg03, bg04, bg05]
+      rps_each: 3.0
+      concurrency_each: 1
+    - t0: 400
+      t1: 600
+      adapters: [bg01]
+      rps_each: 3.0
+      concurrency_each: 1

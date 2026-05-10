@@ -1,0 +1,9 @@
+# Optional: GPU reproduction (match your CUDA/driver stack)
+vllm==0.13.0
+# Use the correct CUDA build for your system, e.g.:
+# torch==2.9.0+cu128 --index-url https://download.pytorch.org/whl/cu128
+transformers==4.57.3
+tokenizers==0.22.2
+safetensors
+sentencepiece
+accelerate

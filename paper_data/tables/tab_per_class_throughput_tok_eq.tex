@@ -1,0 +1,27 @@
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{6pt}
+\caption{\textbf{Per-class throughput and token-equivalent throughput} (\texttt{W2\_phase}, M8; mean $\pm$ std over 3 seeds).
+Per-class rps is computed from completed requests over the post-warmup measurement window used for latency metrics (warmup excluded).
+TokEq/s is an \emph{equivalent} throughput based on configured token budgets:
+$\text{TokEq/s}=\mathrm{Thr}_{\textsf{VIP}}\cdot(L_{\text{vip}}{+}T)+\mathrm{Thr}_{\textsf{BG}}\cdot(L_{\text{bg}}{+}T)$,
+with $L_{\text{vip}}{=}64$, $L_{\text{bg}}{=}2048$, and $T{=}64$; it is not the realized token rate.}
+\begin{tabular}{c l c c c c}
+\toprule
+\textbf{$K$} & \textbf{Policy} & \textbf{\textsf{VIP} rps} & \textbf{\textsf{BG} rps} & \textbf{Total rps} & \textbf{TokEq/s} \\
+\midrule
+\multirow{2}{*}{4}
+& \textsc{GlobalFIFO} & 0.955 $\pm$ 0.049 & 9.700 $\pm$ 0.216 & 10.655 $\pm$ 0.226 & 20609.3 $\pm$ 456.4 \\
+& \textsc{CLIMB} & 0.955 $\pm$ 0.049 & 9.701 $\pm$ 0.215 & 10.656 $\pm$ 0.225 & 20610.2 $\pm$ 454.0 \\
+\midrule
+\multirow{2}{*}{8}
+& \textsc{GlobalFIFO} & 0.955 $\pm$ 0.049 & 9.705 $\pm$ 0.210 & 10.660 $\pm$ 0.220 & 20619.9 $\pm$ 444.4 \\
+& \textsc{CLIMB} & 0.955 $\pm$ 0.049 & 9.700 $\pm$ 0.215 & 10.655 $\pm$ 0.225 & 20609.7 $\pm$ 455.5 \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}
+
+
+\label{tab:per_class_throughput_tok_eq}
+\end{table}

@@ -1,0 +1,276 @@
+{
+  "tab_pro6000_k4_m8.tex": {
+    "source": "run_summaries",
+    "pre_lines": [
+      "\\begin{table}[t]",
+      "\\centering",
+      "\\small",
+      "\\setlength{\\tabcolsep}{4pt}",
+      "\\caption{RTX PRO 6000 (96GB), RAM 110GB. Workload: \\texttt{W2\\_phase\\_hol\\_rps3\\_p2048\\_split\\_M8}, K=4, seeds 101/102/103. Mean $\\pm$ std. (seconds; throughput in rps).}"
+    ],
+    "tabular_begin": "\\begin{tabular}{lccccc}",
+    "tabular_lines": [
+      "\\toprule",
+      "Policy & \\textsf{VIP} TTFT p99 (s) & \\textsf{VIP} queue p99 (s) &  engine p99 (s) & Throughput (rps) & \\textsf{BG} TTFT p99 (s) \\\\",
+      "\\midrule",
+      "\\textsc{GlobalFIFO} & 35.76 $\\pm$ 1.86 & 1.97 $\\pm$ 0.07 & 35.64 $\\pm$ 1.67 & 10.65 $\\pm$ 0.23 & 20.71 $\\pm$ 1.75 \\\\",
+      "\\textsc{CLIMB} & 13.94 $\\pm$ 3.54 & 13.88 $\\pm$ 3.52 & 0.08 $\\pm$ 0.01 & 10.65 $\\pm$ 0.22 & 35.66 $\\pm$ 9.50 \\\\",
+      "\\bottomrule"
+    ],
+    "tabular_end": "\\end{tabular}",
+    "post_lines": [
+      "\\vspace{2pt}",
+      "\\label{tab:pro6000_k4_m8}",
+      "\\end{table}"
+    ]
+  },
+  "tab_bg_liveness.tex": {
+    "source": "run_summaries",
+    "pre_lines": [
+      "\\begin{table}[t]",
+      "  \\centering",
+      "  \\small",
+      "  \\setlength{\\tabcolsep}{4pt}",
+      "  \\caption{BG liveness cost via \\texttt{backlogged\\_wait} at a reduced-load liveness probe (W=8, K=4). Values are mean $\\pm$ std over seeds, in ms.}",
+      "  \\label{tab:bg_liveness}"
+    ],
+    "tabular_begin": "  \\begin{tabular}{lrr}",
+    "tabular_lines": [
+      "    \\toprule",
+      "    Policy & Overall p99 (ms) & Worst-adapter p99 (ms) \\\\",
+      "    \\midrule",
+      "    \\textsc{GlobalFIFO} & 2.73 $\\pm$ 0.10 & 3.45 $\\pm$ 0.20 \\\\",
+      "    \\textsc{CLIMB} & 5440.0 $\\pm$ 750.0 & 4540.0 $\\pm$ 630.0 \\\\",
+      "    \\bottomrule"
+    ],
+    "tabular_end": "  \\end{tabular}",
+    "post_lines": [
+      "\\end{table}"
+    ]
+  },
+  "tab_controls.tex": {
+    "source": "curated_tex",
+    "pre_lines": [
+      "\\begin{table}[t]",
+      "  \\centering",
+      "  \\caption{\\textbf{Controls (D/H).}",
+      "  \\textsf{VIP} TTFT p99 and its queue/engine components plus throughput.",
+      "  Values are mean$\\pm$std over seeds 101/102/103. Units are seconds (s) except throughput (rps).}",
+      "  \\label{tab:controls}",
+      "  \\small",
+      "  \\setlength{\\tabcolsep}{5pt}"
+    ],
+    "tabular_begin": "  \\begin{tabular}{llrrrr}",
+    "tabular_lines": [
+      "    \\toprule",
+      "    Control & Setting & \\textsf{VIP} TTFT p99 & \\textsf{VIP} q p99 & \\textsf{VIP} eng p99 & Thr \\\\",
+      "    \\midrule",
+      "    D (load-matched) & $M8, K{=}4$ (ref.) & 38.71$\\pm$13.18 & 2.10$\\pm$0.08 & 38.43$\\pm$12.91 & 10.66$\\pm$0.18 \\\\",
+      "    D (load-matched) & $M4, K{=}2$ (matched) & 53.04$\\pm$18.80 & 3.59$\\pm$0.18 & 53.04$\\pm$18.80 & 13.13$\\pm$0.26 \\\\",
+      "    \\midrule",
+      "    H (same arrivals) & $K{=}8$ & 0.13$\\pm$0.00 & 0.00$\\pm$0.00 & 0.13$\\pm$0.00 & 10.66$\\pm$0.22 \\\\",
+      "    H (same arrivals) & $K{=}7$ & 45.22$\\pm$13.82 & 0.01$\\pm$0.00 & 45.22$\\pm$13.82 & 10.66$\\pm$0.22 \\\\",
+      "    \\bottomrule"
+    ],
+    "tabular_end": "  \\end{tabular}",
+    "post_lines": [
+      "\\end{table}"
+    ]
+  },
+  "tab_gaterrpp_wtl.tex": {
+    "source": "curated_tex",
+    "pre_lines": [
+      "\\begin{table}[t]",
+      "\\centering",
+      "\\small",
+      "\\setlength{\\tabcolsep}{6pt}",
+      "\\caption{Win/tie/loss summary for \\textsc{ClassDRR} vs.\\ \\textsc{CLIMB} in design-space exploration.",
+      "Each entry is counted over configuration groups (e.g., $(W,\\lambda_{\\text{VIP}},\\lambda_{\\text{BG}},\\texttt{vllm\\_max\\_lora\\_rank})$),",
+      "using the mean across seeds per group.}"
+    ],
+    "tabular_begin": "\\begin{tabular}{lccc}",
+    "tabular_lines": [
+      "\\toprule",
+      "\\textbf{Workload (K=4)} & \\textbf{\\textsf{VIP} TTFT p99} & \\textbf{\\textsf{BG} TTFT p99} & \\textbf{Throughput} \\\\",
+      "\\midrule",
+      "\\texttt{W1\\_main}  & 2/0/0 & 1/0/1 & 0/1/1 \\\\",
+      "\\texttt{W2\\_phase} & 0/0/3 & 1/0/2 & 0/3/0 \\\\",
+      "\\midrule",
+      "Overall             & 2/0/3 & 2/0/3 & 0/4/1 \\\\",
+      "\\bottomrule"
+    ],
+    "tabular_end": "\\end{tabular}",
+    "post_lines": [
+      "\\vspace{2pt}",
+      "",
+      "\\label{tab:classdrr_wtl}",
+      "\\end{table}"
+    ]
+  },
+  "tab_cliff_safe.tex": {
+    "source": "curated_tex",
+    "pre_lines": [
+      "\\begin{table}[t]",
+      "  \\centering",
+      "  \\scriptsize",
+      "  \\setlength{\\tabcolsep}{2pt}",
+      "  \\caption{\\textbf{Cliff vs.\\ Safe regimes at fixed $W{=}8$.}",
+      "  \\textsf{VIP} TTFT p99 decomposition and throughput (open-loop).",
+      "  Values are mean$\\pm$std (3 seeds). Units are seconds (s) except throughput (rps).",
+      "  Queue/Engine columns report component-wise p99 and need not sum to Total p99.}",
+      "  \\label{tab:cliff_safe}"
+    ],
+    "tabular_begin": "  \\begin{tabular}{l c r r r c}",
+    "tabular_lines": [
+      "    \\toprule",
+      "    \\textbf{Policy} & \\textbf{$K$} &",
+      "    \\multicolumn{3}{c}{\\textbf{\\textsf{VIP} TTFT p99}} &",
+      "    \\textbf{Thr} \\\\",
+      "    \\cmidrule(lr){3-5}",
+      "     &  & Total (s) & Queue (s) & Engine (s) & (rps) \\\\",
+      "    \\midrule",
+      "",
+      "    \\textsc{GlobalFIFO} & 4 & 38.71$\\pm$13.2 & 2.10$\\pm$0.1 & 38.43$\\pm$12.9 & 10.66$\\pm$0.18 \\\\",
+      "    \\textsc{CLIMB}      & 4 & \\textbf{13.06}$\\pm$3.2 & 12.97$\\pm$3.2 & \\textbf{0.13}$\\pm$0.0 & 10.66$\\pm$0.18 \\\\",
+      "    \\textsc{GlobalFIFO} & 8 & 0.13$\\pm$0.0 & 0.00$\\pm$0.0 & 0.13$\\pm$0.0 & 10.66$\\pm$0.18 \\\\",
+      "    \\textsc{CLIMB}      & 8 & 0.13$\\pm$0.0 & 0.01$\\pm$0.0 & 0.13$\\pm$0.0 & 10.66$\\pm$0.18 \\\\",
+      "    \\bottomrule"
+    ],
+    "tabular_end": "  \\end{tabular}",
+    "post_lines": [
+      "\\end{table}"
+    ]
+  },
+  "tab_variant_mechanisms.tex": {
+    "source": "curated_tex",
+    "pre_lines": [
+      "\\begin{table}[t]",
+      "\\centering",
+      "\\small",
+      "% 增加行高，防止文字过于密集",
+      "\\renewcommand{\\arraystretch}{1.2}",
+      "% @{} 去掉表格左右两端的默认空白，让表格完全对齐版心",
+      "\\caption{Policy variants considered in design-space exploration. \\textbf{Tag} denotes the short label used in plot legends.}"
+    ],
+    "tabular_begin": "\\begin{tabularx}{\\textwidth}{@{} l l >{\\raggedright\\arraybackslash}X @{}}",
+    "tabular_lines": [
+      "\\toprule",
+      "\\textbf{Policy (paper name)} & \\textbf{Tag} & \\textbf{Definition} \\\\",
+      "\\midrule",
+      "\\textsc{CLIMB} & \\textsc{CLIMB} &",
+      "Hard-gated admission ($K$) with class-aware RR activation and global FIFO dispatch across active adapters;",
+      "\\textsf{BG} admission pauses when \\textsf{VIP} backlog exceeds $K$. \\\\",
+      "",
+      "\\textsc{GateDRR-Guard} & \\textsc{GDRR-G} &",
+      "Hard-gated admission + per-adapter deficit fairness (DRR) + stability guardrails (lease / switch budget / cooldown). \\\\",
+      "",
+      "\\textsc{OpenDRR-Guard} & \\textsc{OpenGDRR} &",
+      "No hard gate; keeps per-adapter DRR fairness and stability guardrails. \\\\",
+      "",
+      "\\textsc{GateRR-Guard} & \\textsc{GateRR-G} &",
+      "Hard-gated admission + stability guardrails; dispatch uses RR among eligible adapters (no deficit). \\\\",
+      "",
+      "\\textsc{GateDRR} & \\textsc{GateDRR} &",
+      "Hard-gated admission + per-adapter DRR fairness; stability guardrails disabled. \\\\",
+      "",
+      "\\textsc{ClassDRR (Slack)} & \\textsc{ClassDRR} &",
+      "Same admission as \\textsc{CLIMB}; \\textsf{BINDING} uses class-level DRR then class-RR;",
+      "\\textsf{SLACK} falls back to \\textsc{CLIMB}-style FIFO; optional \\textsf{VIP} rescue. \\\\",
+      "",
+      "\\textsc{UrgencyGate} & \\textsc{Urgency} &",
+      "Same admission as \\textsc{CLIMB}; \\textsf{BG} activation picks the most urgent adapter (e.g., max HOL age, $\\alpha\\!\\cdot$queue length); dispatch remains FIFO. \\\\",
+      "",
+      "\\textsc{SkewMixGate} & \\textsc{MixGate} &",
+      "Same admission as \\textsc{CLIMB}; \\textsf{BG} activation mixes RR and urgency with skew-based $\\lambda$; dispatch remains FIFO. \\\\",
+      "",
+      "\\textsc{BGCap} & \\textsc{BGCap} &",
+      "\\textsf{VIP} adapters with backlog/inflight are always activated; \\textsf{BG} active set capped by a distinct-adapter cap (\\texttt{bg\\_cap}); FIFO dispatch. \\\\",
+      "",
+      "\\textsc{LRUGate} & \\textsc{LRU} &",
+      "LRU active set with eviction on misses; dispatch keeps locality via clustered queues (\\texttt{cluster\\_q}). \\\\",
+      "",
+      "\\textsc{LockGate} & \\textsc{Lock} &",
+      "Hard-gated admission; once the resident set fills, it is locked until queues drain; FIFO dispatch. \\\\",
+      "",
+      "\\textsc{GlobalFIFO} & \\textsc{FIFO} &",
+      "No admission control; global FIFO across all adapters. \\\\",
+      "\\bottomrule"
+    ],
+    "tabular_end": "\\end{tabularx}",
+    "post_lines": [
+      "",
+      "\\label{tab:policy_variants}",
+      "\\end{table}"
+    ]
+  },
+  "tab_baseline_zoo.tex": {
+    "source": "curated_tex",
+    "pre_lines": [
+      "\\begin{table}[h] % 在附录中推荐用 [h] 或者 [t]",
+      "  \\centering",
+      "  \\small",
+      "  \\setlength{\\tabcolsep}{5pt} % 列宽现在很富裕，可以稍微宽一点",
+      "  \\caption{\\textbf{Detailed Baseline Performance ($W{=}8$).} ",
+      "  Detailed comparison of all baselines under Cliff ($K{=}4$) and Safe ($K{=}8$) regimes. ",
+      "  \\textsc{BGCap} suffers from high \\textsf{BG} latency; \\textsc{LockGate} suffers from low throughput. ",
+      "  \\textsc{CLIMB} provides a strong throughput-preserving trade-off. Values are mean$\\pm$std (3 seeds).}",
+      "  \\label{tab:baseline_zoo}"
+    ],
+    "tabular_begin": "  \\begin{tabular}{l rrr r r}",
+    "tabular_lines": [
+      "    \\toprule",
+      "    & \\multicolumn{3}{c}{\\textbf{\\textsf{VIP} Latency p99 (s)}} & \\textbf{\\textsf{BG} p99} & \\textbf{Thr} \\\\",
+      "    \\cmidrule(lr){2-4} \\cmidrule(lr){5-5} \\cmidrule(lr){6-6}",
+      "    \\textbf{Policy} & Total (TTFT) & Queue & Engine & (s) & (rps) \\\\",
+      "    \\midrule",
+      "    \\multicolumn{6}{l}{\\textit{\\textbf{Regime: Cliff} ($K{=}4$)}} \\\\",
+      "    \\textsc{GlobalFIFO}      & 38.71$\\pm$13.2 &  2.10$\\pm$0.1 & 38.43$\\pm$12.9 &  20.17$\\pm$1.9 & 10.66$\\pm$0.2 \\\\",
+      "    \\textsc{LRUGate} & 40.96$\\pm$10.4 & 40.85$\\pm$10.4&  0.27$\\pm$0.2  &  31.21$\\pm$7.0 & 10.66$\\pm$0.2 \\\\",
+      "    \\textsc{BGCap}    &  3.77$\\pm$0.6  &  3.51$\\pm$0.8 &  0.19$\\pm$0.1  & 118.40$\\pm$0.2 &  6.89$\\pm$0.8 \\\\",
+      "    \\textsc{LockGate}   &  0.05$\\pm$0.0  &  0.00$\\pm$0.0 &  0.05$\\pm$0.0  &   0.06$\\pm$0.0 &  3.99$\\pm$0.2 \\\\",
+      "    \\textsc{CLIMB}     & 13.69$\\pm$3.4  & 13.60$\\pm$3.4 &  0.13$\\pm$0.0  &  40.36$\\pm$5.0 & 10.66$\\pm$0.2 \\\\",
+      "    \\midrule",
+      "    \\multicolumn{6}{l}{\\textit{\\textbf{Regime: Safe Anchor} ($K{=}8$)}} \\\\",
+      "    \\textsc{GlobalFIFO}      &  0.13$\\pm$0.0  &  0.00$\\pm$0.0 &  0.13$\\pm$0.0  &   0.15$\\pm$0.0 & 10.66$\\pm$0.2 \\\\",
+      "    \\textsc{LRUGate} &  0.13$\\pm$0.0  &  0.00$\\pm$0.0 &  0.13$\\pm$0.0  &   0.15$\\pm$0.0 & 10.66$\\pm$0.2 \\\\",
+      "    \\textsc{BGCap}    &  3.85$\\pm$0.5  &  3.64$\\pm$0.4 &  0.21$\\pm$0.1  & 118.30$\\pm$0.4 &  6.78$\\pm$0.6 \\\\",
+      "    \\textsc{LockGate}   &  0.05$\\pm$0.0  &  0.00$\\pm$0.0 &  0.05$\\pm$0.0  &   0.06$\\pm$0.0 &  3.99$\\pm$0.2 \\\\",
+      "    \\textsc{CLIMB}     &  0.13$\\pm$0.0  &  0.00$\\pm$0.0 &  0.13$\\pm$0.0  &   0.14$\\pm$0.0 & 10.66$\\pm$0.2 \\\\",
+      "    \\bottomrule"
+    ],
+    "tabular_end": "  \\end{tabular}",
+    "post_lines": [
+      "\\end{table}"
+    ]
+  },
+  "tab_overhead_appendix.tex": {
+    "source": "curated_tex",
+    "pre_lines": [
+      "\\begin{table}[t]",
+      "  \\centering",
+      "  \\small",
+      "  \\caption{\\textbf{Controller overhead (Appendix).} Detailed overhead statistics. Note that \\texttt{GlobalFIFO} has no controller overhead.}",
+      "  \\label{tab:overhead_ext}",
+      "  \\setlength{\\tabcolsep}{6pt} % 稍微增加列间距，因为现在空间很富裕",
+      "  % 核心修改：第5列由 p{4cm} 改为 l"
+    ],
+    "tabular_begin": "  \\begin{tabular}{l cc c l c c}",
+    "tabular_lines": [
+      "    \\toprule",
+      "    & \\multicolumn{2}{c}{\\textbf{Ctrl Time ($\\mu$s)}} & \\textbf{State} & \\textbf{Scaling over $K$ ($\\mu$s)} & \\textbf{Switch Rate (/s)} & \\textbf{L/E (/s)} \\\\",
+      "    % 调整 cmidrule，使其只覆盖由多列合并的表头或特定组，单独一列通常不需要上方划线，除非为了分组",
+      "    \\cmidrule(lr){2-3} \\cmidrule(lr){5-5} \\cmidrule(lr){6-6} ",
+      "    \\textbf{Policy} & Mean & P99 & (KB) & & Mean$\\pm$Std / P99 & Mean \\\\",
+      "    \\midrule",
+      "    \\textsc{GlobalFIFO} & -- & -- & -- & \\multicolumn{1}{c}{--} & -- & -- \\\\",
+      "    \\textsc{CLIMB} & 4.72 & 5.22 & 13.1 & ",
+      "    $K4{=}3.1$, $K8{=}4.7$, $K16{=}7.1$ & ",
+      "    0.55$\\pm$1.0 / 4.0 & 0.55 \\\\",
+      "    \\bottomrule"
+    ],
+    "tabular_end": "  \\end{tabular}",
+    "post_lines": [
+      "\\end{table}"
+    ]
+  }
+}

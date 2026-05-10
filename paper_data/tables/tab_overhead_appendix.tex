@@ -1,0 +1,21 @@
+\begin{table}[t]
+  \centering
+  \small
+  \caption{\textbf{Controller overhead (Appendix).} Detailed overhead statistics. Note that \texttt{GlobalFIFO} has no controller overhead.}
+  \label{tab:overhead_ext}
+  \setlength{\tabcolsep}{6pt} % 稍微增加列间距，因为现在空间很富裕
+  % 核心修改：第5列由 p{4cm} 改为 l
+  \begin{tabular}{l cc c l c c}
+    \toprule
+    & \multicolumn{2}{c}{\textbf{Ctrl Time ($\mu$s)}} & \textbf{State} & \textbf{Scaling over $K$ ($\mu$s)} & \textbf{Switch Rate (/s)} & \textbf{L/E (/s)} \\
+    % 调整 cmidrule，使其只覆盖由多列合并的表头或特定组，单独一列通常不需要上方划线，除非为了分组
+    \cmidrule(lr){2-3} \cmidrule(lr){5-5} \cmidrule(lr){6-6} 
+    \textbf{Policy} & Mean & P99 & (KB) & & Mean$\pm$Std / P99 & Mean \\
+    \midrule
+    \textsc{GlobalFIFO} & -- & -- & -- & \multicolumn{1}{c}{--} & -- & -- \\
+    \textsc{CLIMB} & 4.72 & 5.22 & 13.1 & 
+    $K4{=}3.1$, $K8{=}4.7$, $K16{=}7.1$ & 
+    0.55$\pm$1.0 / 4.0 & 0.55 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

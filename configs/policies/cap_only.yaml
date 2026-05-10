@@ -1,0 +1,4 @@
+id: cap_only
+policy: cap_only
+params:
+  bg_cap: 1

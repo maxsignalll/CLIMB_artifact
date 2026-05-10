@@ -1,0 +1,28 @@
+id: W2_phase
+name: W2_phase
+duration_s: 600
+warmup_s: 60
+token:
+  max_tokens: 64
+  prompt_len: 64
+vip:
+  adapters: [vip]
+  rps: 0.8
+  concurrency: 1
+bg:
+  phases:
+    - t0: 0
+      t1: 200
+      adapters: [bg01]
+      rps_each: 1.2
+      concurrency_each: 1
+    - t0: 200
+      t1: 400
+      adapters: [bg01, bg02, bg03, bg04]
+      rps_each: 1.2
+      concurrency_each: 1
+    - t0: 400
+      t1: 600
+      adapters: [bg01]
+      rps_each: 1.2
+      concurrency_each: 1

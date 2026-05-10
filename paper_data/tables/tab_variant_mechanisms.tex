@@ -1,0 +1,53 @@
+\begin{table}[t]
+\centering
+\small
+% 增加行高，防止文字过于密集
+\renewcommand{\arraystretch}{1.2}
+% @{} 去掉表格左右两端的默认空白，让表格完全对齐版心
+\caption{Policy variants considered in design-space exploration. \textbf{Tag} denotes the short label used in plot legends.}
+\begin{tabularx}{\textwidth}{@{} l l >{\raggedright\arraybackslash}X @{}}
+\toprule
+\textbf{Policy (paper name)} & \textbf{Tag} & \textbf{Definition} \\
+\midrule
+\textsc{CLIMB} & \textsc{CLIMB} &
+Hard-gated admission ($K$) with class-aware RR activation and global FIFO dispatch across active adapters;
+\textsf{BG} admission pauses when \textsf{VIP} backlog exceeds $K$. \\
+
+\textsc{GateDRR-Guard} & \textsc{GDRR-G} &
+Hard-gated admission + per-adapter deficit fairness (DRR) + stability guardrails (lease / switch budget / cooldown). \\
+
+\textsc{OpenDRR-Guard} & \textsc{OpenGDRR} &
+No hard gate; keeps per-adapter DRR fairness and stability guardrails. \\
+
+\textsc{GateRR-Guard} & \textsc{GateRR-G} &
+Hard-gated admission + stability guardrails; dispatch uses RR among eligible adapters (no deficit). \\
+
+\textsc{GateDRR} & \textsc{GateDRR} &
+Hard-gated admission + per-adapter DRR fairness; stability guardrails disabled. \\
+
+\textsc{ClassDRR (Slack)} & \textsc{ClassDRR} &
+Same admission as \textsc{CLIMB}; \textsf{BINDING} uses class-level DRR then class-RR;
+\textsf{SLACK} falls back to \textsc{CLIMB}-style FIFO; optional \textsf{VIP} rescue. \\
+
+\textsc{UrgencyGate} & \textsc{Urgency} &
+Same admission as \textsc{CLIMB}; \textsf{BG} activation picks the most urgent adapter (e.g., max HOL age, $\alpha\!\cdot$queue length); dispatch remains FIFO. \\
+
+\textsc{SkewMixGate} & \textsc{MixGate} &
+Same admission as \textsc{CLIMB}; \textsf{BG} activation mixes RR and urgency with skew-based $\lambda$; dispatch remains FIFO. \\
+
+\textsc{BGCap} & \textsc{BGCap} &
+\textsf{VIP} adapters with backlog/inflight are always activated; \textsf{BG} active set capped by a distinct-adapter cap (\texttt{bg\_cap}); FIFO dispatch. \\
+
+\textsc{LRUGate} & \textsc{LRU} &
+LRU active set with eviction on misses; dispatch keeps locality via clustered queues (\texttt{cluster\_q}). \\
+
+\textsc{LockGate} & \textsc{Lock} &
+Hard-gated admission; once the resident set fills, it is locked until queues drain; FIFO dispatch. \\
+
+\textsc{GlobalFIFO} & \textsc{FIFO} &
+No admission control; global FIFO across all adapters. \\
+\bottomrule
+\end{tabularx}
+
+\label{tab:policy_variants}
+\end{table}

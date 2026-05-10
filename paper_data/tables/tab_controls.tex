@@ -1,0 +1,20 @@
+\begin{table}[t]
+  \centering
+  \caption{\textbf{Controls (D/H).}
+  \textsf{VIP} TTFT p99 and its queue/engine components plus throughput.
+  Values are mean$\pm$std over seeds 101/102/103. Units are seconds (s) except throughput (rps).}
+  \label{tab:controls}
+  \small
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{llrrrr}
+    \toprule
+    Control & Setting & \textsf{VIP} TTFT p99 & \textsf{VIP} q p99 & \textsf{VIP} eng p99 & Thr \\
+    \midrule
+    D (load-matched) & $M8, K{=}4$ (ref.) & 38.71$\pm$13.18 & 2.10$\pm$0.08 & 38.43$\pm$12.91 & 10.66$\pm$0.18 \\
+    D (load-matched) & $M4, K{=}2$ (matched) & 53.04$\pm$18.80 & 3.59$\pm$0.18 & 53.04$\pm$18.80 & 13.13$\pm$0.26 \\
+    \midrule
+    H (same arrivals) & $K{=}8$ & 0.13$\pm$0.00 & 0.00$\pm$0.00 & 0.13$\pm$0.00 & 10.66$\pm$0.22 \\
+    H (same arrivals) & $K{=}7$ & 45.22$\pm$13.82 & 0.01$\pm$0.00 & 45.22$\pm$13.82 & 10.66$\pm$0.22 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

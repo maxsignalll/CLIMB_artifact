@@ -1,0 +1,4 @@
+id: legacy_no_gate
+policy: legacy
+params:
+  disable_hard_gate: true

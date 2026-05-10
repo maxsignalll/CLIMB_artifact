@@ -1,0 +1,9 @@
+id: legacy
+policy: legacy
+params:
+  quantum: 1.0
+  lease_q: 4
+  switch_budget: 4
+  cooldown_sec: 0.5
+  epoch_sec: 1.0
+  vip_boost: 1.0

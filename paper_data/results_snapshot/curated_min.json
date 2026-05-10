@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "source": "manual curation (machine-readable snapshot)",
+    "note": "These tables are descriptive/summary and are rendered to match the paper LaTeX."
+  },
+  "tab_overhead_appendix": {
+    "rows": [
+      {
+        "policy": "GlobalFIFO",
+        "mean": "--",
+        "p99": "--",
+        "state": "--",
+        "scaling": "--",
+        "switch": "--",
+        "le": "--"
+      },
+      {
+        "policy": "CLIMB",
+        "mean": "4.72",
+        "p99": "5.22",
+        "state": "13.1",
+        "scaling": "$K4{=}3.1$, $K8{=}4.7$, $K16{=}7.1$",
+        "switch": "0.55$\\pm$1.0 / 4.0",
+        "le": "0.55"
+      }
+    ]
+  },
+  "tab_variant_mechanisms": {
+    "rows": [
+      {
+        "policy": "CLIMB",
+        "tag": "CLIMB",
+        "definition": "Hard-gated admission ($K$) with class-aware RR activation and global FIFO dispatch across active adapters;\\n\\textsf{BG} admission pauses when \\textsf{VIP} backlog exceeds $K$."
+      },
+      {
+        "policy": "GateDRR-Guard",
+        "tag": "GDRR-G",
+        "definition": "Hard-gated admission + per-adapter deficit fairness (DRR) + stability guardrails (lease / switch budget / cooldown)."
+      },
+      {
+        "policy": "OpenDRR-Guard",
+        "tag": "OpenGDRR",
+        "definition": "No hard gate; keeps per-adapter DRR fairness and stability guardrails."
+      },
+      {
+        "policy": "GateRR-Guard",
+        "tag": "GateRR-G",
+        "definition": "Hard-gated admission + stability guardrails; dispatch uses RR among eligible adapters (no deficit)."
+      },
+      {
+        "policy": "GateDRR",
+        "tag": "GateDRR",
+        "definition": "Hard-gated admission + per-adapter DRR fairness; stability guardrails disabled."
+      },
+      {
+        "policy": "ClassDRR (Slack)",
+        "tag": "ClassDRR",
+        "definition": "Same admission as \\textsc{CLIMB}; \\textsf{BINDING} uses class-level DRR then class-RR;\\n\\textsf{SLACK} falls back to \\textsc{CLIMB}-style FIFO; optional \\textsf{VIP} rescue."
+      },
+      {
+        "policy": "UrgencyGate",
+        "tag": "Urgency",
+        "definition": "Same admission as \\textsc{CLIMB}; \\textsf{BG} activation picks the most urgent adapter (e.g., max HOL age, $\\alpha\\!\\cdot$queue length); dispatch remains FIFO."
+      },
+      {
+        "policy": "SkewMixGate",
+        "tag": "MixGate",
+        "definition": "Same admission as \\textsc{CLIMB}; \\textsf{BG} activation mixes RR and urgency with skew-based $\\lambda$; dispatch remains FIFO."
+      },
+      {
+        "policy": "BGCap",
+        "tag": "BGCap",
+        "definition": "\\textsf{VIP} adapters with backlog/inflight are always activated; \\textsf{BG} active set capped by a distinct-adapter cap (\\texttt{bg\\_cap}); FIFO dispatch."
+      },
+      {
+        "policy": "LRUGate",
+        "tag": "LRU",
+        "definition": "LRU active set with eviction on misses; dispatch keeps locality via clustered queues (\\texttt{cluster\\_q})."
+      },
+      {
+        "policy": "LockGate",
+        "tag": "Lock",
+        "definition": "Hard-gated admission; once the resident set fills, it is locked until queues drain; FIFO dispatch."
+      },
+      {
+        "policy": "GlobalFIFO",
+        "tag": "FIFO",
+        "definition": "No admission control; global FIFO across all adapters."
+      }
+    ]
+  },
+  "tab_gaterrpp_wtl": {
+    "rows": [
+      {
+        "workload": "W1\\_main",
+        "pad": "  ",
+        "vip": "2/0/0",
+        "bg": "1/0/1",
+        "thr": "0/1/1"
+      },
+      {
+        "workload": "W2\\_phase",
+        "pad": " ",
+        "vip": "0/0/3",
+        "bg": "1/0/2",
+        "thr": "0/3/0"
+      },
+      {
+        "workload": "Overall",
+        "pad": "             ",
+        "vip": "2/0/3",
+        "bg": "2/0/3",
+        "thr": "0/4/1"
+      }
+    ]
+  }
+}

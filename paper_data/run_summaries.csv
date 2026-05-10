@@ -1,0 +1,13 @@
+run_id,policy,k,seed,workload_id,table_id,vip_ttft_p99_ms,vip_queue_p99_ms,vip_engine_p99_ms,bg_ttft_p99_ms,throughput_rps,bg_backlogged_wait_p99_ms,bg_backlogged_wait_p99_worst_ms
+bg_liveness_gate_rr_K4_seed101,gate_rr,4,101,W2_phase_hol_rps1_p2048_split_M8,bg_liveness,,,,,,4690.000,3910.000
+bg_liveness_gate_rr_K4_seed102,gate_rr,4,102,W2_phase_hol_rps1_p2048_split_M8,bg_liveness,,,,,,5440.000,4540.000
+bg_liveness_gate_rr_K4_seed103,gate_rr,4,103,W2_phase_hol_rps1_p2048_split_M8,bg_liveness,,,,,,6190.000,5170.000
+bg_liveness_vanilla_K4_seed101,vanilla,4,101,W2_phase_hol_rps1_p2048_split_M8,bg_liveness,,,,,,2.630,3.250
+bg_liveness_vanilla_K4_seed102,vanilla,4,102,W2_phase_hol_rps1_p2048_split_M8,bg_liveness,,,,,,2.730,3.450
+bg_liveness_vanilla_K4_seed103,vanilla,4,103,W2_phase_hol_rps1_p2048_split_M8,bg_liveness,,,,,,2.830,3.650
+seed=101__K=4__ts=20260122-010027__git=unknown__cfg=1714c4,gate_rr,4,101,W2_phase_hol_rps3_p2048_split_M8,pro6000,17620.6637382508,17543.2266950608,85.14525890350355,33019.01656627652,10.47494268050874,,
+seed=102__K=4__ts=20260122-012124__git=unknown__cfg=0c4589,gate_rr,4,102,W2_phase_hol_rps3_p2048_split_M8,pro6000,13633.93164873122,13589.526998996724,76.1151671409607,46194.054021835334,10.575951138133828,,
+seed=103__K=4__ts=20260122-014220__git=unknown__cfg=49ae19,gate_rr,4,103,W2_phase_hol_rps3_p2048_split_M8,pro6000,10567.922277450552,10519.858973026265,86.30030870437622,27755.826244354237,10.90486525601063,,
+seed=101__K=4__ts=20260122-005020__git=unknown__cfg=3b1d0a,vanilla,4,101,W2_phase_hol_rps3_p2048_split_M8,pro6000,34092.12725162508,1926.1244058609082,34089.16888237002,22672.164878845255,10.472455562444031,,
+seed=102__K=4__ts=20260122-011117__git=unknown__cfg=ab1d8e,vanilla,4,102,W2_phase_hol_rps3_p2048_split_M8,pro6000,35417.53988265991,2054.0147423744115,35416.38869047165,20183.298740386967,10.57583742105904,,
+seed=103__K=4__ts=20260122-013213__git=unknown__cfg=7dfa42,vanilla,4,103,W2_phase_hol_rps3_p2048_split_M8,pro6000,37763.033542633035,1934.623460769653,37401.82219505309,19286.70440673825,10.904474032455331,,

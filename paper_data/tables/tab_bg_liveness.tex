@@ -1,0 +1,15 @@
+\begin{table}[t]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \caption{BG liveness cost via \texttt{backlogged\_wait} at a reduced-load liveness probe (W=8, K=4). Values are mean $\pm$ std over seeds, in ms.}
+  \label{tab:bg_liveness}
+  \begin{tabular}{lrr}
+    \toprule
+    Policy & Overall p99 (ms) & Worst-adapter p99 (ms) \\
+    \midrule
+    \textsc{GlobalFIFO} & 2.73 $\pm$ 0.10 & 3.45 $\pm$ 0.20 \\
+    \textsc{CLIMB} & 5440.0 $\pm$ 750.0 & 4540.0 $\pm$ 630.0 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

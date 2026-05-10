@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{6pt}
+\caption{Win/tie/loss summary for \textsc{ClassDRR} vs.\ \textsc{CLIMB} in design-space exploration.
+Each entry is counted over configuration groups (e.g., $(W,\lambda_{\text{VIP}},\lambda_{\text{BG}},\texttt{vllm\_max\_lora\_rank})$),
+using the mean across seeds per group.}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Workload (K=4)} & \textbf{\textsf{VIP} TTFT p99} & \textbf{\textsf{BG} TTFT p99} & \textbf{Throughput} \\
+\midrule
+\texttt{W1\_main}  & 2/0/0 & 1/0/1 & 0/1/1 \\
+\texttt{W2\_phase} & 0/0/3 & 1/0/2 & 0/3/0 \\
+\midrule
+Overall             & 2/0/3 & 2/0/3 & 0/4/1 \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}
+
+\label{tab:classdrr_wtl}
+\end{table}

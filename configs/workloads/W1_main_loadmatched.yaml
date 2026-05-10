@@ -1,0 +1,15 @@
+id: W1_main_loadmatched
+name: W1_main_loadmatched
+duration_s: 600
+warmup_s: 60
+token:
+  max_tokens: 64
+  prompt_len: 64
+vip:
+  adapters: [vip]
+  rps: 0.8
+  concurrency: 1
+bg:
+  adapters: [bg01, bg02, bg03, bg04]
+  rps_each: 0.9
+  concurrency_each: 1

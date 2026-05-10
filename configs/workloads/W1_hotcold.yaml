@@ -1,0 +1,22 @@
+id: W1_hotcold
+name: W1_hotcold
+duration_s: 600
+warmup_s: 60
+token:
+  max_tokens: 64
+  prompt_len: 64
+vip:
+  adapters: [vip]
+  rps: 0.8
+  concurrency: 1
+bg:
+  flap_hetero:
+    adapters: [bg01, bg02, bg03, bg04]
+    step_s: 600
+    hot_weight: 0.70
+    warm_weight: 0.10
+    cold_weight: 0.10
+    burst_every: 0
+    burst_len_s: 0
+    rps_each: 1.2
+    concurrency_each: 1
