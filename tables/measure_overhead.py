@@ -11,8 +11,13 @@ from typing import Dict, Iterable, List, Optional, Tuple
 
 import pandas as pd
 
-from ingress.policies.gate_rr import GateRRPolicy
-from ingress.scheduler import RequestItem, Scheduler
+from policies.gate_rr import GateRRPolicy
+
+try:
+    from ingress.scheduler import RequestItem, Scheduler
+except ImportError:
+    RequestItem = None
+    Scheduler = None
 
 
 def _safe_mean_std(values: List[float]) -> Tuple[Optional[float], Optional[float]]:
@@ -156,6 +161,12 @@ def _recursive_size(obj, seen: Optional[set] = None) -> int:
 
 
 def _measure_policy_overhead(k: int, w: int, ticks: int) -> Tuple[Optional[float], Optional[float], Optional[float]]:
+    if RequestItem is None or Scheduler is None:
+        raise RuntimeError(
+            "tables/measure_overhead.py requires the full serving harness "
+            "that provides ingress.scheduler. The public artifact uses the "
+            "curated overhead snapshot by default."
+        )
     policy = GateRRPolicy(k=k, bg_cap=k, cluster_q=4)
     request_log = "/tmp/overhead_request.jsonl"
     control_log = "/tmp/overhead_control.jsonl"

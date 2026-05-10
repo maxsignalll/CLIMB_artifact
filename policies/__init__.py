@@ -1,13 +1,13 @@
-from ingress.policies.base import PolicyBase
-from ingress.policies.vanilla import VanillaPolicy
-from ingress.policies.cap_only import CapOnlyPolicy
-from ingress.policies.gate_rr import GateRRPolicy
-from ingress.policies.gate_rr_pp import GateRRPPPolicy
-from ingress.policies.gate_u import GateUPolicy
-from ingress.policies.gate_mix import GateMixPolicy
-from ingress.policies.cache_aware import CacheAwarePolicy
-from ingress.policies.legacy import LegacyPolicy
-from ingress.policies.no_switch import NoSwitchPolicy
+from .base import PolicyBase
+from .vanilla import VanillaPolicy
+from .cap_only import CapOnlyPolicy
+from .gate_rr import GateRRPolicy
+from .gate_rr_pp import GateRRPPPolicy
+from .gate_u import GateUPolicy
+from .gate_mix import GateMixPolicy
+from .cache_aware import CacheAwarePolicy
+from .legacy import LegacyPolicy
+from .no_switch import NoSwitchPolicy
 
 POLICY_REGISTRY = {
     "vanilla": VanillaPolicy,

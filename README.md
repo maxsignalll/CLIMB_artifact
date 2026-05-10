@@ -36,7 +36,7 @@ figures and tables.
   `paper_data/`.
 - `configs/`: workload and policy configuration files.
 - `policies/`: policy implementations and the registry.
-- `scripts/`: optional local GPU rerun/report helpers.
+- `scripts/`: optional local GPU rerun, synthetic LoRA, and report helpers.
 - `tools/`: small export utilities.
 
 Policy mapping:
@@ -60,6 +60,8 @@ are written to `figures/` and `results/summary/`.
 
 ```bash
 python -m pip install -r requirements.txt
+
+python scripts/check_artifact.py
 
 python plots/plot_wk_sweep_combo.py
 python plots/plot_baseline_tradeoff.py
@@ -136,31 +138,78 @@ this artifact provides the corresponding AUC plot inputs and plotting script.
 
 ## Optional GPU Rerun
 
-The no-GPU path above is the recommended artifact check. For a local GPU sanity
-rerun, first install the optional serving dependencies:
+The no-GPU path above is the recommended artifact check. The optional GPU path
+is a mechanism sanity rerun for the W2/M8 residency-cliff setting; it is not
+required to regenerate the checked-in figures and tables.
+
+The public rerun uses synthetic LoRA adapters to recreate adapter residency
+pressure. These adapters are not trained task adapters and are not committed to
+the repository.
+
+First install the optional serving dependencies:
 
 ```bash
 python -m pip install -r requirements-gpu.txt
 ```
 
-Then edit the local paths in `configs/local_settings.sh`:
+Prepare rank-128 q/k/v/o LoRA adapters outside the repository:
+
+```bash
+python scripts/prepare_synthetic_loras.py \
+  --model /path/to/Qwen2.5-7B-Instruct \
+  --out /path/to/climb_lora_adapters_r128_qkvo \
+  --names vip,bg01,bg02,bg03,bg04,bg05,bg06,bg07 \
+  --rank 128 \
+  --target-modules q_proj,k_proj,v_proj,o_proj
+
+du -sh /path/to/climb_lora_adapters_r128_qkvo/vip
+```
+
+Each generated adapter should be roughly 0.30 GiB for the Qwen2.5-7B q/k/v/o
+rank-128 setting. Then edit the local paths in `configs/local_settings.sh`:
 
 ```bash
 sed -n '1,120p' configs/local_settings.sh
 ```
 
-The included wrapper runs `GlobalFIFO` and `CLIMB` once each at `K=4` and `K=8`
-for the W2/M8 workload. The wrapper expects access to the full experiment
-serving harness that provides `scripts/autodl/run_wk_sweep.sh`; set
-`HARNESS_ROOT` to that checkout before running it:
+Set at least:
+
+- `VLLM_MODEL`: local base-model path.
+- `LORA_DIR`: the synthetic adapter directory created above.
+- `VLLM_ENV`: optional conda environment name for vLLM.
+
+The default public sanity rerun compares `GlobalFIFO` and `CLIMB` at `K=4` for
+the W2/M8 workload under open-loop load. The wrapper expects access to the full
+experiment serving harness that provides `scripts/autodl/run_wk_sweep.sh`; set
+`HARNESS_ROOT` to that checkout before running:
 
 ```bash
 export HARNESS_ROOT=/path/to/full/experiment/checkout
 bash scripts/run_gpu_w2_min_local.sh
 ```
 
+To also run the safe-residency anchor at `K=8`, use:
+
+```bash
+KS="4 8" bash scripts/run_gpu_w2_min_local.sh
+```
+
 The wrapper writes a short report to `reports/gpu_run_summary.md`, mirrors run
 directories to `runs/`, and mirrors report CSVs to `report/`.
+
+Expected mechanism-level outcome:
+
+- `vanilla` is `GlobalFIFO`; under W2/M8 with `K=4`, VIP requests should show a
+  large engine-side tail from adapter residency contention.
+- `gate_rr` is `CLIMB`; it should reduce the VIP engine-side tail by shaping
+  adapter residency, while residual end-to-end TTFT may still include ingress
+  queueing under open-loop overload.
+- Exact p99 values depend on the GPU, vLLM version, driver stack, and local
+  serving harness. Treat this path as a sanity rerun, not a byte-for-byte replay
+  of the authors' private raw logs.
+
+Do not commit generated models, LoRA adapters, `runs/`, `report/`, `reports/`,
+or local server logs.
 
 ## Citation
 

@@ -23,6 +23,7 @@ tmp/
 __MACOSX/
 .idea/
 .vscode/
+*.bak
 
 # Large ad hoc archives
 *.zip

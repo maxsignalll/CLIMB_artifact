@@ -2,7 +2,7 @@ import time
 from dataclasses import dataclass
 from typing import Dict, Iterable, List, Optional, Set
 
-from ingress.policies.base import PolicyBase
+from .base import PolicyBase
 
 
 @dataclass

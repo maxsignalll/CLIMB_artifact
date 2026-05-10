@@ -1,6 +1,6 @@
 from typing import List, Optional, Set
 
-from ingress.policies.base import PolicyBase
+from .base import PolicyBase
 
 
 class NoSwitchPolicy(PolicyBase):

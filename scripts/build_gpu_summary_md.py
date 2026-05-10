@@ -2,8 +2,7 @@
 """Build a short Markdown summary from report CSVs produced by run_wk_sweep.sh.
 
 Expected inputs:
-  - report/hol_Ksweep_M8_k4_mp.csv
-  - report/hol_Ksweep_M8_k8_mp.csv
+  - report/<exp-prefix>_k<K>_mp.csv
 
 Outputs:
   - reports/gpu_run_summary.md
@@ -12,7 +11,7 @@ Outputs:
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 import re
 from pathlib import Path
 import pandas as pd
@@ -222,6 +221,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--report-dir", default="report")
     ap.add_argument("--out", default="reports/gpu_run_summary.md")
+    ap.add_argument("--exp-prefix", default="hol_Ksweep_M8")
+    ap.add_argument("--ks", default="4 8", help="Whitespace or comma separated K values.")
     args = ap.parse_args()
 
     base_root = Path(__file__).resolve().parents[1]  # artifact repository root
@@ -232,12 +233,12 @@ def main() -> int:
         if fallback.exists():
             report_dir = fallback
             repo_root = base_root.parent
-    k4_path = report_dir / "hol_Ksweep_M8_k4_mp.csv"
-    k8_path = report_dir / "hol_Ksweep_M8_k8_mp.csv"
+    ks = [int(x) for x in re.split(r"[\s,]+", args.ks.strip()) if x]
 
     rows: list[tuple[int, pd.DataFrame | None]] = []
     missing: list[Path] = []
-    for k, p in [(4, k4_path), (8, k8_path)]:
+    report_paths = [(k, report_dir / f"{args.exp_prefix}_k{k}_mp.csv") for k in ks]
+    for k, p in report_paths:
         if p.exists():
             df = load_csv(p)
             rows.append((k, summarize_latest(df, repo_root)))
@@ -247,7 +248,7 @@ def main() -> int:
 
     workload = None
     # Workload is recorded in raw CSV; fallback to default if missing.
-    for k, p in [(4, k4_path), (8, k8_path)]:
+    for k, p in report_paths:
         if p.exists():
             df_raw = load_csv(p)
             if "workload_id" in df_raw.columns:
@@ -259,9 +260,10 @@ def main() -> int:
     out_path = base_root / args.out
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
-    now = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    k_label = "/".join(str(k) for k in ks)
     lines = []
-    lines.append("# GPU Run Summary (W2/M8, K=4/8)")
+    lines.append(f"# GPU Run Summary (W2/M8, K={k_label})")
     lines.append("")
     lines.append("## Run settings")
     lines.append(f"- workload: `{workload}`")
@@ -273,7 +275,7 @@ def main() -> int:
     lines.append(emit_table(rows))
     lines.append("")
     lines.append("## Artifacts")
-    for k, p in [(4, k4_path), (8, k8_path)]:
+    for k, p in report_paths:
         status = "found" if p.exists() else "missing"
         rel = p.relative_to(repo_root)
         lines.append(f"- {rel} ({status})")

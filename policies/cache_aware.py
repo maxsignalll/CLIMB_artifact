@@ -1,6 +1,6 @@
 from typing import Dict, Optional, Set
 
-from ingress.policies.base import PolicyBase
+from .base import PolicyBase
 
 
 class CacheAwarePolicy(PolicyBase):

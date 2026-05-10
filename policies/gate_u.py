@@ -2,7 +2,7 @@ import os
 import time
 from typing import Optional
 
-from ingress.policies.gate_rr import GateRRPolicy
+from .gate_rr import GateRRPolicy
 
 
 def _env_float(name: str, default: float) -> float:

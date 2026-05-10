@@ -1,6 +1,6 @@
 from typing import Optional, Set
 
-from ingress.policies.base import PolicyBase
+from .base import PolicyBase
 
 
 class GateRRPolicy(PolicyBase):
