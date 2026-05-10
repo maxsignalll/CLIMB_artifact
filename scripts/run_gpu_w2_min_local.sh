@@ -4,7 +4,8 @@ set -euo pipefail
 # Wrapper for a small local GPU rerun.
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 ARTIFACT_ROOT=$(cd "${SCRIPT_DIR}/.." && pwd)
-REPO_ROOT=$(cd "${SCRIPT_DIR}/../.." && pwd)
+DEFAULT_HARNESS_ROOT=$(cd "${ARTIFACT_ROOT}/.." && pwd)
+HARNESS_ROOT=${HARNESS_ROOT:-"${DEFAULT_HARNESS_ROOT}"}
 
 CONFIG_PATH=${CONFIG_PATH:-"${ARTIFACT_ROOT}/configs/local_settings.sh"}
 KS=${KS:-"4 8"}
@@ -17,13 +18,14 @@ if [[ ! -f "${CONFIG_PATH}" ]]; then
   echo "Config not found: ${CONFIG_PATH}" >&2
   exit 1
 fi
-if [[ ! -f "${REPO_ROOT}/scripts/autodl/run_wk_sweep.sh" ]]; then
-  echo "Missing ${REPO_ROOT}/scripts/autodl/run_wk_sweep.sh" >&2
-  echo "This wrapper expects a full repo checkout (run_experiment.py + ingress)." >&2
+if [[ ! -f "${HARNESS_ROOT}/scripts/autodl/run_wk_sweep.sh" ]]; then
+  echo "Missing serving harness: ${HARNESS_ROOT}/scripts/autodl/run_wk_sweep.sh" >&2
+  echo "Set HARNESS_ROOT=/path/to/full/experiment/checkout before running this wrapper." >&2
+  echo "The no-GPU figure/table reproduction path does not require this harness." >&2
   exit 1
 fi
 
-cd "${REPO_ROOT}"
+cd "${HARNESS_ROOT}"
 
 mkdir -p "${ARTIFACT_RUNS}" "${ARTIFACT_REPORT}"
 

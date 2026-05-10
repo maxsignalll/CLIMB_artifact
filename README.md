@@ -150,9 +150,12 @@ sed -n '1,120p' configs/local_settings.sh
 ```
 
 The included wrapper runs `GlobalFIFO` and `CLIMB` once each at `K=4` and `K=8`
-for the W2/M8 workload, assuming the surrounding serving harness is available:
+for the W2/M8 workload. The wrapper expects access to the full experiment
+serving harness that provides `scripts/autodl/run_wk_sweep.sh`; set
+`HARNESS_ROOT` to that checkout before running it:
 
 ```bash
+export HARNESS_ROOT=/path/to/full/experiment/checkout
 bash scripts/run_gpu_w2_min_local.sh
 ```
 

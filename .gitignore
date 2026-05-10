@@ -16,6 +16,7 @@ runs/
 report/
 reports/
 logs_gpu/
+tmp/
 
 # OS/editor files
 .DS_Store
